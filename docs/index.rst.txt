@@ -1,0 +1,118 @@
+.. BRD documentation master file, created by
+   sphinx-quickstart on Sat Aug 11 11:14:37 2018.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+BRD - Automation of Tuning Processes
+===============================
+
+This are the Business Requirements for automating the tuning processes.
+
+Business Requirements
+=======================
+The below methodology needs to be incorporated with the existing ones in the automation tool:
+
+IQR Methodology
+======================= 
+* IQR is a statistical methodology that helps identify mild and extreme outliers for the population distribution. 
+* It is defined as the difference between the first and the third quartiles (P75-P25). 
+* It can be used as a measure of how spread out the values are and hence gives an estimate of where the outliers lie.
+                                 
+| The first and third quartiles for a sample population of alerts are based on a SQL script.
+
+| **Mild outliers** and **extreme outliers** are calculated as shown: 
+* Mild outliers = P75 value + (IQR value * 1.5)
+* Extreme outliers = P75 value + (IQR value * 3)
+
+.. Note::
+
+ A SQL script that generates values for parameters from **50th percentile** to **99th percentile** helps with threshold analysis.
+
+| **For example:**
+| Consider IQR analysis of a parameter **Minimum Aggregate Transaction Amount (Min Agg Trans Amt):**
+
+| For this parameter, **IQR**, **P25**, **P75**, **mild outliers** and **extreme outliers** are generated for the sample population:
+
++-----------------------+-------------+-------------+-------+-------------+---------------+----------------+
+|IQR - Min Agg Trans Amt|    Median   |     IQR     |   P25 |     P75     |  Mild Outlier | Extreme Outlier|
++=======================+=============+=============+=======+=============+===============+================+
+| Total Credit Amount   |    $ -      | $204,080.80 |   $ - | $204,080.80 |  $510201.90   | $816323.00     |
++-----------------------+-------------+-------------+-------+-------------+---------------+----------------+
+| Total Debit Amount    | $100,416.00 | $100,416.00 |   $ - | $222,513.00 |  $556282.50   | $890052.00     |                  
++-----------------------+-------------+-------------+-------+-------------+---------------+----------------+
+
+Alerts with parameter values higher than mild and/or extreme outlier values can be analysed along with other methodologies to provide recommendations reset thresholds. The ultimate decision of setting thresholds depends on the analyst
+
+Scenario Tuning Components
+=========================== 
+
+The below requirements are applicable to all methodologies (**Percentile Select**, **Percentile Jump**, **Productivity Rate** and **IQR**) and need to be automated:
+
+1. **Baseline Thresholds**: Select initial thresholds (percentiles) for different parameters (such as transaction amount, transaction count, etc.) that determine generation of alerts
+
+2. **Sample Sizes**: Select statistically significant number of alerts that are a fair representation of the population by using hypergeometric distribution
+
+| Hypergeometric sampling methodology (as per OCC guidelines) selects a sample for each source system code by applying below parameters:
+* Confidence Level: 95%
+* Error Rate: 5%
+* Population size: 20,000 
+* Response Distribution: 50%
+
+Sampling example:
+
++----------------------+----------+
+|Source System         |   CINQ   |   
++======================+==========+
+|Source System Code    |    111   | 
++----------------------+----------+
+|Inst./ Channel Type   | Wires    |                 
++----------------------+----------+
+|Daily Avg. Txn. Volume| 140,055  |                 
++----------------------+----------+
+|**Sample Size**       | **384**  |                 
++----------------------+----------+
+
+| The below link is a sample size calculator using hypergeometric formula:
+http://www.raosoft.som/samplesize.html
+
+3. **Parameter Analysis:** Based on the rules logic, select the parameters that need to be tuned
+4. **ATL/BTL Testing:** Generate BTL alerts and ATL alerts for the selected Baseline Thresholds and Sample Sizes
+
+*For instance, with a Baseline Threshold of 80th percentile, BTL analysis considers 75th percentile (below the 80th percentile) and generates alerts. ATL analysis considers 85th percentile (above the 80th percentile) and generates alerts. BTL/ATL analysis takes (+/-5%, +/-10%, etc. based on feedback received by the investigation team for each of the samples)*
+
+| 5. **Threshold Assessment:** After the alerts are generated based on BTL/ATL analysis, investigators will review the samples to check for:  
+* False positives 
+* Number of alerts that led to creation of SARS or FIs 
+Based on their analysis, thresholds for parameters are reset manually 
+
+.. Note::
+ The sampling process still requires feedback from investigative teams and decision making.
+
++--------------+---------------------------+
+|Abbreviations | Description               |   
++==============+===========================+
+|IQR           | Inter Quartile Range      | 
++--------------+---------------------------+
+|BTL           | Below the Line            |                 
++--------------+---------------------------+
+|ATL           | Above the Line            |                 
++--------------+---------------------------+
+|SAR           | Suspicious Activity Report|                 
++--------------+---------------------------+
+|FI            | Field Inquiries           |                 
++--------------+---------------------------+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
