@@ -3,10 +3,17 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-BRD - Automation of Tuning Processes
-===============================
+Overview
+=========
 
-This are the Business Requirements for automating the tuning processes.
+Transaction Monitoring Systems generate alerts based on business rules that utilize specific parameter values and thresholds, which are criteria for what qualifies as an alert.These parameter and threshold values are tuned following a predominantly manual process by investigation teams.
+
+| The tuning process can be automated across all stages:
+1. Baseline Thresholds
+2. Sample Sizes 
+3. ATL/BTL Sampling
+4. Parameter Analysis
+5. Threshold Assessment
 
 Business Requirements
 =======================
@@ -101,18 +108,3 @@ Based on their analysis, thresholds for parameters are reset manually
 +--------------+---------------------------+
 |FI            | Field Inquiries           |                 
 +--------------+---------------------------+
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
