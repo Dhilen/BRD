@@ -1,0 +1,9 @@
+Overview
+==================
+Transaction Monitoring Systems generate alerts based on business rules that utilize specific parameter values and thresholds, which are criteria for what qualifies as an alert. These parameter and threshold values are tuned following a predominantly manual process by investigation teams.
+The tuning process can be automated across all stages:
+    1.	Baseline Thresholds
+    2.	Sample Sizes 
+    3.	ATL/BTL Sampling
+    4.	Parameter Analysis
+    5.	Threshold Assessment
