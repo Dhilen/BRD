@@ -1,0 +1,255 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>BRD - Automation of Tuning Processes &#8212; BRD 1.0 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="#">BRD 1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="brd-automation-of-tuning-processes">
+<h1>BRD - Automation of Tuning Processes<a class="headerlink" href="#brd-automation-of-tuning-processes" title="Permalink to this headline">¶</a></h1>
+<p>This are the Business Requirements for automating the tuning processes.</p>
+</div>
+<div class="section" id="business-requirements">
+<h1>Business Requirements<a class="headerlink" href="#business-requirements" title="Permalink to this headline">¶</a></h1>
+<p>The below methodology needs to be incorporated with the existing ones in the automation tool:</p>
+</div>
+<div class="section" id="iqr-methodology">
+<h1>IQR Methodology<a class="headerlink" href="#iqr-methodology" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li>IQR is a statistical methodology that helps identify mild and extreme outliers for the population distribution.</li>
+<li>It is defined as the difference between the first and the third quartiles (P75-P25).</li>
+<li>It can be used as a measure of how spread out the values are and hence gives an estimate of where the outliers lie.</li>
+</ul>
+<div class="line-block">
+<div class="line">The first and third quartiles for a sample population of alerts are based on a SQL script.</div>
+</div>
+<div class="line-block">
+<div class="line"><strong>Mild outliers</strong> and <strong>extreme outliers</strong> are calculated as shown:</div>
+</div>
+<ul class="simple">
+<li>Mild outliers = P75 value + (IQR value * 1.5)</li>
+<li>Extreme outliers = P75 value + (IQR value * 3)</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">A SQL script that generates values for parameters from <strong>50th percentile</strong> to <strong>99th percentile</strong> helps with threshold analysis.</p>
+</div>
+<div class="line-block">
+<div class="line"><strong>For example:</strong></div>
+<div class="line">Consider IQR analysis of a parameter <strong>Minimum Aggregate Transaction Amount (Min Agg Trans Amt):</strong></div>
+</div>
+<div class="line-block">
+<div class="line">For this parameter, <strong>IQR</strong>, <strong>P25</strong>, <strong>P75</strong>, <strong>mild outliers</strong> and <strong>extreme outliers</strong> are generated for the sample population:</div>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="23%" />
+<col width="13%" />
+<col width="13%" />
+<col width="7%" />
+<col width="13%" />
+<col width="15%" />
+<col width="16%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">IQR - Min Agg Trans Amt</th>
+<th class="head">Median</th>
+<th class="head">IQR</th>
+<th class="head">P25</th>
+<th class="head">P75</th>
+<th class="head">Mild Outlier</th>
+<th class="head">Extreme Outlier</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Total Credit Amount</td>
+<td>$ -</td>
+<td>$204,080.80</td>
+<td>$ -</td>
+<td>$204,080.80</td>
+<td>$510201.90</td>
+<td>$816323.00</td>
+</tr>
+<tr class="row-odd"><td>Total Debit Amount</td>
+<td>$100,416.00</td>
+<td>$100,416.00</td>
+<td>$ -</td>
+<td>$222,513.00</td>
+<td>$556282.50</td>
+<td>$890052.00</td>
+</tr>
+</tbody>
+</table>
+<p>Alerts with parameter values higher than mild and/or extreme outlier values can be analysed along with other methodologies to provide recommendations reset thresholds. The ultimate decision of setting thresholds depends on the analyst</p>
+</div>
+<div class="section" id="scenario-tuning-components">
+<h1>Scenario Tuning Components<a class="headerlink" href="#scenario-tuning-components" title="Permalink to this headline">¶</a></h1>
+<p>The below requirements are applicable to all methodologies (<strong>Percentile Select</strong>, <strong>Percentile Jump</strong>, <strong>Productivity Rate</strong> and <strong>IQR</strong>) and need to be automated:</p>
+<ol class="arabic simple">
+<li><strong>Baseline Thresholds</strong>: Select initial thresholds (percentiles) for different parameters (such as transaction amount, transaction count, etc.) that determine generation of alerts</li>
+<li><strong>Sample Sizes</strong>: Select statistically significant number of alerts that are a fair representation of the population by using hypergeometric distribution</li>
+</ol>
+<div class="line-block">
+<div class="line">Hypergeometric sampling methodology (as per OCC guidelines) selects a sample for each source system code by applying below parameters:</div>
+</div>
+<ul class="simple">
+<li>Confidence Level: 95%</li>
+<li>Error Rate: 5%</li>
+<li>Population size: 20,000</li>
+<li>Response Distribution: 50%</li>
+</ul>
+<p>Sampling example:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="69%" />
+<col width="31%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Source System</th>
+<th class="head">CINQ</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Source System Code</td>
+<td>111</td>
+</tr>
+<tr class="row-odd"><td>Inst./ Channel Type</td>
+<td>Wires</td>
+</tr>
+<tr class="row-even"><td>Daily Avg. Txn. Volume</td>
+<td>140,055</td>
+</tr>
+<tr class="row-odd"><td><strong>Sample Size</strong></td>
+<td><strong>384</strong></td>
+</tr>
+</tbody>
+</table>
+<div class="line-block">
+<div class="line">The below link is a sample size calculator using hypergeometric formula:</div>
+</div>
+<p><a class="reference external" href="http://www.raosoft.som/samplesize.html">http://www.raosoft.som/samplesize.html</a></p>
+<ol class="arabic simple" start="3">
+<li><strong>Parameter Analysis:</strong> Based on the rules logic, select the parameters that need to be tuned</li>
+<li><strong>ATL/BTL Testing:</strong> Generate BTL alerts and ATL alerts for the selected Baseline Thresholds and Sample Sizes</li>
+</ol>
+<p><em>For instance, with a Baseline Threshold of 80th percentile, BTL analysis considers 75th percentile (below the 80th percentile) and generates alerts. ATL analysis considers 85th percentile (above the 80th percentile) and generates alerts. BTL/ATL analysis takes (+/-5%, +/-10%, etc. based on feedback received by the investigation team for each of the samples)</em></p>
+<div class="line-block">
+<div class="line">5. <strong>Threshold Assessment:</strong> After the alerts are generated based on BTL/ATL analysis, investigators will review the samples to check for:</div>
+</div>
+<ul class="simple">
+<li>False positives</li>
+<li>Number of alerts that led to creation of SARS or FIs</li>
+</ul>
+<p>Based on their analysis, thresholds for parameters are reset manually</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The sampling process still requires feedback from investigative teams and decision making.</p>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="34%" />
+<col width="66%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Abbreviations</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>IQR</td>
+<td>Inter Quartile Range</td>
+</tr>
+<tr class="row-odd"><td>BTL</td>
+<td>Below the Line</td>
+</tr>
+<tr class="row-even"><td>ATL</td>
+<td>Above the Line</td>
+</tr>
+<tr class="row-odd"><td>SAR</td>
+<td>Suspicious Activity Report</td>
+</tr>
+<tr class="row-even"><td>FI</td>
+<td>Field Inquiries</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">BRD - Automation of Tuning Processes</a></li>
+<li><a class="reference internal" href="#business-requirements">Business Requirements</a></li>
+<li><a class="reference internal" href="#iqr-methodology">IQR Methodology</a></li>
+<li><a class="reference internal" href="#scenario-tuning-components">Scenario Tuning Components</a></li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="#">BRD 1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Dhilen.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.
+    </div>
+  </body>
+</html>
