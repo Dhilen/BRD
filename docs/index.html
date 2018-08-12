@@ -6,14 +6,13 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>BRD - Automation of Tuning Processes &#8212; BRD 1.0 documentation</title>
-    <link rel="stylesheet" href="classic.css" type="text/css" />
-    <link rel="stylesheet" href="pygments.css" type="text/css" />
-    <script type="text/javascript" src="documentation_options.js"></script>
-    <script type="text/javascript" src="sidebar.js"></script>
-    <script type="text/javascript" src="jquery.js"></script>
-    <script type="text/javascript" src="underscore.js"></script>
-    <script type="text/javascript" src="doctools.js"></script>
+    <title>Overview &#8212; BRD 1.0 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
   </head><body>
@@ -32,16 +31,26 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="brd-automation-of-tuning-processes">
-<h1>BRD - Automation of Tuning Processes<a class="headerlink" href="#brd-automation-of-tuning-processes" title="Permalink to this headline"></a></h1>
-<p>This are the Business Requirements for automating the tuning processes.</p>
+  <div class="section" id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<p>Transaction Monitoring Systems generate alerts based on business rules that utilize specific parameter values and thresholds, which are criteria for what qualifies as an alert.These parameter and threshold values are tuned following a predominantly manual process by investigation teams.</p>
+<div class="line-block">
+<div class="line">The tuning process can be automated across all stages:</div>
+</div>
+<ol class="arabic simple">
+<li>Baseline Thresholds</li>
+<li>Sample Sizes</li>
+<li>ATL/BTL Sampling</li>
+<li>Parameter Analysis</li>
+<li>Threshold Assessment</li>
+</ol>
 </div>
 <div class="section" id="business-requirements">
-<h1>Business Requirements<a class="headerlink" href="#business-requirements" title="Permalink to this headline"></a></h1>
+<h1>Business Requirements<a class="headerlink" href="#business-requirements" title="Permalink to this headline">¶</a></h1>
 <p>The below methodology needs to be incorporated with the existing ones in the automation tool:</p>
 </div>
 <div class="section" id="iqr-methodology">
-<h1>IQR Methodology<a class="headerlink" href="#iqr-methodology" title="Permalink to this headline"></a></h1>
+<h1>IQR Methodology<a class="headerlink" href="#iqr-methodology" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
 <li>IQR is a statistical methodology that helps identify mild and extreme outliers for the population distribution.</li>
 <li>It is defined as the difference between the first and the third quartiles (P75-P25).</li>
@@ -110,7 +119,7 @@
 <p>Alerts with parameter values higher than mild and/or extreme outlier values can be analysed along with other methodologies to provide recommendations reset thresholds. The ultimate decision of setting thresholds depends on the analyst</p>
 </div>
 <div class="section" id="scenario-tuning-components">
-<h1>Scenario Tuning Components<a class="headerlink" href="#scenario-tuning-components" title="Permalink to this headline"></a></h1>
+<h1>Scenario Tuning Components<a class="headerlink" href="#scenario-tuning-components" title="Permalink to this headline">¶</a></h1>
 <p>The below requirements are applicable to all methodologies (<strong>Percentile Select</strong>, <strong>Percentile Jump</strong>, <strong>Productivity Rate</strong> and <strong>IQR</strong>) and need to be automated:</p>
 <ol class="arabic simple">
 <li><strong>Baseline Thresholds</strong>: Select initial thresholds (percentiles) for different parameters (such as transaction amount, transaction count, etc.) that determine generation of alerts</li>
@@ -210,7 +219,7 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="#">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">BRD - Automation of Tuning Processes</a></li>
+<li><a class="reference internal" href="#">Overview</a></li>
 <li><a class="reference internal" href="#business-requirements">Business Requirements</a></li>
 <li><a class="reference internal" href="#iqr-methodology">IQR Methodology</a></li>
 <li><a class="reference internal" href="#scenario-tuning-components">Scenario Tuning Components</a></li>
@@ -219,7 +228,7 @@
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="index.rst.txt"
+      <li><a href="_sources/index.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
